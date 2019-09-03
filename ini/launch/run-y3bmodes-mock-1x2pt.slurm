@@ -16,6 +16,6 @@ export SAVEFILE=$SLURM_JOB_NAME
 export VALUESFILE=../ini/params/values-y3-tatt.ini
 export PRIORSFILE=../ini/priors/priors-y3.ini
 
-export PARAMFILE=../ini/params/params-1x2pt-tatt-bmodes.ini
+export PARAMFILE=../ini/params/params-1x2pt-tatt.ini
 
 mpiexec -n 32 cosmosis $PARAMFILE --mpi -p runtime.sampler=multinest output.lock=F multinest.resume=F 
