@@ -4,8 +4,10 @@ from chainconsumer import ChainConsumer
 import sys
 
 make_plot = False
-nla_only =True
-zmean = [0.38,0.52,0.74,0.96]
+nla_only =False
+#zmean = [0.38,0.52,0.74,0.96]
+
+zmean = [0.33743060204439729,0.52566351194711403,0.74482301410314122,0.93292117984817646]
 
 def derive_eff_A(chain,z0,suffix):
     alpha = chain.samples['intrinsic_alignment_parameters--alpha%d'%suffix]
