@@ -42,7 +42,7 @@ cc = ChainConsumer()
 #import pdb ; pdb.set_trace()
 
 
-names = [r'$\Omega_{\rm m}$','$S_8$', r'$A_1$', r'$A_2$', r'$\eta_1$', r'$\eta_1$', r'$b_{\rm TA}$']
+names = [r'$\Omega_{\rm m}$','$S_8$', r'$A_1$', r'$A_2$', r'$\eta_1$', r'$\eta_2$', r'$b_{\rm TA}$']
 
 
 cc.add_chain(samp1.T, parameters=names, weights=c1.weight, kde=True, name=r'DES Y3 (Fiducial)')

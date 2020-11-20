@@ -7,6 +7,14 @@ plt.style.use('y1a1')
 import tools.emcee as mc
 from chainconsumer import ChainConsumer
 
+from matplotlib import rcParams
+rcParams['xtick.major.size'] = 3.5
+rcParams['xtick.minor.size'] = 1.7
+rcParams['ytick.major.size'] = 3.5
+rcParams['ytick.minor.size'] = 1.7
+rcParams['xtick.direction']='in'
+rcParams['ytick.direction']='in'
+
 print('Loading chains...')
 
 base = '/Users/hattifattener/Documents/y3cosmicshear/chains/ias_fid/'

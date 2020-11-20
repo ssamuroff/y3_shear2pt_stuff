@@ -21,7 +21,7 @@ print('Loading chains...')
 
 base = '/Users/hattifattener/Documents/y3cosmicshear/chains/data/nla/'
 c1 = mc.chain(base+'chain_NLA_1x2pt_lcdm.txt')
-c2 = mc.chain(base+'chain_NLA_A1positive_1x2pt_lcdm.txt')
+c2 = mc.chain(base+'chain_1x2pt_nla_alex.txt')
 
 
 
@@ -51,8 +51,8 @@ names = [r'$\Omega_{\rm m}$','$S_8$','$A_1$', r'$\eta_1$']
 names2 = [r'$\Omega_{\rm m}$','$S_8$','$A_1$', r'$\eta_1$', '$A_2$', r'$\eta_2$', r'$b_{\rm TA}$']
 
 
-cc.add_chain(samp1.T, parameters=names, weights=c1.weight, kde=True, name=r'NLA')
-cc.add_chain(samp2.T, parameters=names, weights=c2.weight, kde=True, name=r'NLA $A_1>0$')
+cc.add_chain(samp1.T, parameters=names, weights=c1.weight, kde=True, name=r'NLA (Simon)')
+cc.add_chain(samp2.T, parameters=names, weights=c2.weight, kde=True, name=r'NLA (Alex)')
 #cc.add_chain(samp3.T, parameters=names, weights=c3.weight, kde=True, name=r'model=NLA, data=NLA')
 
 

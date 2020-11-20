@@ -26,9 +26,9 @@ c2.add_s8()
 
 #'out_redmagic_high_mock_baseline-gp1-gg1-pp1-multinest-fidcov-ta-y3fid-6rpmin_200rpmax-rsd1-lens0-mag0-phot1.txt'
 
-samp1 = np.array([c1.samples['cosmological_parameters--omega_m'], c1.samples['cosmological_parameters--s8'], c1.samples['intrinsic_alignment_parameters--a1'], c1.samples['intrinsic_alignment_parameters--alpha1'], c1.samples['intrinsic_alignment_parameters--a2'], c1.samples['intrinsic_alignment_parameters--alpha2'], c1.samples['intrinsic_alignment_parameters--bias_ta']])
-samp2 = np.array([c2.samples['cosmological_parameters--omega_m'], c2.samples['cosmological_parameters--s8'], c2.samples['intrinsic_alignment_parameters--a1'], c2.samples['intrinsic_alignment_parameters--alpha1'], c2.samples['intrinsic_alignment_parameters--a2'], c2.samples['intrinsic_alignment_parameters--alpha2'], c2.samples['intrinsic_alignment_parameters--bias_ta']])
-samp3 = np.array([c3.samples['intrinsic_alignment_parameters--a1'], c3.samples['intrinsic_alignment_parameters--alpha1'], c3.samples['intrinsic_alignment_parameters--a2'], c3.samples['intrinsic_alignment_parameters--alpha2'], c3.samples['intrinsic_alignment_parameters--bias_ta']])
+samp1 = np.array([c1.samples['cosmological_parameters--omega_m'], c1.samples['cosmological_parameters--s8'], c1.samples['intrinsic_alignment_parameters--a1'], c1.samples['intrinsic_alignment_parameters--a2'], c1.samples['intrinsic_alignment_parameters--bias_ta']])
+samp2 = np.array([c2.samples['cosmological_parameters--omega_m'], c2.samples['cosmological_parameters--s8'], c2.samples['intrinsic_alignment_parameters--a1'], c2.samples['intrinsic_alignment_parameters--a2'], c2.samples['intrinsic_alignment_parameters--bias_ta']])
+samp3 = np.array([c3.samples['intrinsic_alignment_parameters--a1'], c3.samples['intrinsic_alignment_parameters--a2'], c3.samples['intrinsic_alignment_parameters--bias_ta']])
 
 
 #import pdb ; pdb.set_trace()
@@ -38,8 +38,8 @@ cc = ChainConsumer()
 #import pdb ; pdb.set_trace()
 
 
-names = ['$A_1$', r'$\eta_1$', '$A_2$', r'$\eta_2$', r'$b_{\rm TA}$']
-names2 = [r'$\Omega_{\rm m}$','$S_8$','$A_1$', r'$\eta_1$', '$A_2$', r'$\eta_2$', r'$b_{\rm TA}$']
+names = ['$A_1$', '$A_2$', r'$b_{\rm TA}$']
+names2 = [r'$\Omega_{\rm m}$','$S_8$','$A_1$', '$A_2$', r'$b_{\rm TA}$']
 
 
 cc.add_chain(samp1.T, parameters=names2, weights=c1.weight, kde=True, name=r'MICE Baseline')
@@ -48,7 +48,7 @@ cc.add_chain(samp3.T, parameters=names, weights=c3.weight, kde=True, name=r'MICE
 
 
 
-cc.configure(colors=['#2e8b57','#002366','#4682b4', '#FF1493', ],shade=[True,True,False]*3, shade_alpha=[0.5, 0.5, 0.1,0.5], legend_kwargs={"loc": "upper right", "fontsize": 20},label_font_size=22,tick_font_size=14)
+cc.configure(colors=['#2e8b57','#002366','#808080', '#FF1493', ],shade=[True,True,False]*3, shade_alpha=[0.5, 0.5, 0.1,0.5], legend_kwargs={"loc": "upper right", "fontsize": 20},label_font_size=22,tick_font_size=14)
 #cc.configure(colors=['#800080', '#800080', '#FF1493', '#000000' ],shade=[False,True,True,False], shade_alpha=[0.25,0.25,0.25], max_ticks=4, kde=[6]*5, linestyles=["-", "-", '-.', '--'], legend_kwargs={"loc": "upper right", "fontsize": 14},label_font_size=14,tick_font_size=14) 
 plt.close() ; 
 fig = cc.plotter.plot(extents={'$S_8$':(0.59,0.8),r'$\Omega_{\rm m}$':(0.15,0.4),'$A_1$':(-4.,2), '$A_2$':(-3.5,3.5), r'$\eta_1$':(-5,5), r'$\eta_2$':(-5,5), r'$b_{\rm TA}$':(0,2)}, truth=[0.25,0.7302967433402215] )
