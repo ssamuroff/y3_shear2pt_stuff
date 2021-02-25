@@ -66,3 +66,45 @@ plt.savefig('/Users/hattifattener/Documents/y3cosmicshear/plots/cs2/unblinded_y3
 plt.savefig('/Users/hattifattener/Documents/y3cosmicshear/plots/cs2/unblinded_y3cs_keyplot.png')
 
 
+
+plt.close()
+from getdist import plots, MCSamples
+import getdist
+import matplotlib.pyplot as plt
+
+
+g = plots.get_subplot_plotter() #(width_inch=6, ratio=1)
+g.settings.legend_fontsize = 22
+g.settings.fontsize = 18
+g.settings.axes_fontsize = 18
+g.settings.axes_labelsize = 22
+g.settings.axis_tick_max_labels = 15
+g.settings.linewidth = 1.5
+g.settings.legend_colored_text=True
+g.settings.axis_tick_step_groups = [[2.5, 3, 4, 6, 8],[1, 2, 5, 10]]
+
+
+samples = MCSamples(samples=samp1.T,names=['x1','x2','x3'], labels=names, label='DES Y3', weights=c1.weight, settings={'boundary_correction_order':0, 'mult_bias_correction_order':1})
+samples5 = MCSamples(samples=samp2.T,names=['x1','x2','x3'], labels=names, label='Planck 2018', weights=c2.weight, settings={'boundary_correction_order':0, 'mult_bias_correction_order':1})
+
+g.triangle_plot([samples, samples5],['x1','x2','x3'], filled=[True,True,False,False,True], contour_colors=['#FA86C9','#7223AD' ], labels=['DES Y3', 'Planck 2018'], param_limits={'x1':(0.18,0.45), 'x2':(0.69,0.9), 'x3':(0.6,1.05)}) #, markers=[[0.15,0.3,0.45], [0.6,0.7,0.8,0.9], [-2,-1,0,1,2,3]])
+#import pdb ; pdb.set_trace()
+
+s8_ticks = [0.7,0.75,0.8,0.85]
+omm_ticks = [0.2,0.3,0.4]
+sig8_ticks = [0.7,0.8,0.9,1.]
+
+# ticks...
+g.subplots[0][0].set_xticks(omm_ticks)
+g.subplots[1][0].set_xticks(omm_ticks)
+g.subplots[1][0].set_yticks(s8_ticks)
+g.subplots[1][1].set_xticks(s8_ticks)
+g.subplots[2][0].set_yticks(sig8_ticks)
+g.subplots[2][0].set_xticks(omm_ticks)
+g.subplots[2][1].set_yticks(sig8_ticks)
+g.subplots[2][1].set_xticks(s8_ticks)
+g.subplots[2][2].set_xticks(sig8_ticks)
+
+#g.add_legend(['DES Y3','HSC Y1'])
+plt.savefig('/Users/hattifattener/Documents/y3cosmicshear/plots/cs2/unblinded_y3cs_keyplot_getdist.pdf')
+plt.savefig('/Users/hattifattener/Documents/y3cosmicshear/plots/cs2/unblinded_y3cs_keyplot_getdist.png')

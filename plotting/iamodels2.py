@@ -38,16 +38,15 @@ class plot2D(plots.PolychordPlots2D):
     proxies=[]
     def __init__(self, *args, **kwargs):
         super(plot2D, self).__init__(*args, **kwargs)
-        self.colors=['midnightblue','darkmagenta', 'pink', 'forestgreen','purple','royalblue', 'k','pink','steelblue',"purple", 'k', 'k', 'k', 'k']*10
-        self.linestyles=['-','-','-','-']*10
+        self.colors=['royalblue', 'hotpink','darkmagenta','royalblue', 'k','pink','steelblue',"purple", 'k', 'k', 'k', 'k']*10
+        self.linestyles=['-','-','-','-','-','-']*10
         pylab.style.use('y1a1')
         #matplotlib.rcParams['text.usetex']=False
         matplotlib.rcParams['font.family']='serif'
-        self.labels= [r'model=NLA, data=TATT',
-                      r'model=TATT, data=TATT',
-                      r'model=NLA, data=NLA',
-                      r'model=TATT, data=NLA',
-                      r'$\gamma \gamma$, IAs Fixed',
+        self.labels= [#r'No IAs',
+                      r'NLA, no $z$ ($A_1$)',
+                      r'NLA ($A_1, \eta_1$)',
+                      r'TATT ($A_1, \eta_1, b_{\rm TA}, A_2, \eta_2$)',
                       r'Mixed Sample'] #[r"Early-type, $\gamma \gamma$",
                      # r"Early-type, $\delta_g \gamma + \delta_g\delta_g$",
                      # r"Early-type, $\gamma \gamma + \delta_g \gamma + \delta_g\delta_g$",
@@ -62,17 +61,17 @@ class plot2D(plots.PolychordPlots2D):
             blindx,blindy = 0,0
         x0 = 0.53 * (1 + blindx)
         y0 = -4.0 * (1 + blindy)
-        self.axis=[0.15,0.5,0.69,0.9]
-        self.fill_list=[True,True,False,False,False,False,False,True,True,True]*10
+        self.axis=[0.15,0.5,0.69,0.86]
+        self.fill_list=[False,False,True,False,False,True,False,False,True,True,True]*10
         self.line_list=[True,True,True,True]*10
         self.opaque_list=[False,False,False,False,False,False,False,False,True,True]*10
         self.linewidths=[2.]*len(self.colors)
-        self.alphas=[0.3,0.3,0.3,0.3,0.4,0.4,0.4]*len(self.colors)
+        self.alphas=[0.3,0.3,0.3,0.6,0.4,0.4,0.4]*len(self.colors)
         self.imshow=[False]*10
         self.linecolors=[None]*10
         self.opaque_centre=[False]*10
         self.fill_colors=[None,None]*10
-        self.plot_points=[(0.3, 0.8259369942966649*np.sqrt(0.3/0.3))]
+        self.plot_points=[] #(0.3, 0.8259369942966649*np.sqrt(0.3/0.3))]
         #self.proxies=[]
 
     def run(self):
@@ -246,7 +245,7 @@ class plot2D(plots.PolychordPlots2D):
         #Do the labels
         print( self.proxies,self.labels)
         if self.labels is not None:
-            leg=pylab.legend(self.proxies,self.labels,loc="lower right", fontsize=13)
+            leg=pylab.legend(self.proxies,self.labels,loc="upper right", fontsize=13)
             leg.get_frame().set_alpha(0.75) # this will make the box totally transparent
             leg.get_frame().set_edgecolor('white') # this will make the edges of the 
         pylab.xlabel(r"$\Omega_\mathrm{m}$",fontsize=22, fontname='serif')

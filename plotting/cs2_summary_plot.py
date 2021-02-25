@@ -23,8 +23,8 @@ fontsize=14
 plt.subplot(111)
 
 
-plt.xlim(0.45,0.95)
-plt.ylim(0.0,1.1)
+plt.xlim(0.45,0.9)
+plt.ylim(0.0,1.075)
 plt.yticks(visible=False)
 
 plt.xticks([0.4,0.5,0.6,0.7,0.8,0.9], fontsize=fontsize)
@@ -34,16 +34,19 @@ inputs = {r'$1.$ \textbf{Fiducial DES Y3}': (0.766,0.023,'#000000'),
          r'$2.$ No IAs': (0.769,0.019,'#000000'),
          r'$3.$ NLA': (0.778,0.019,'#000000'),
          r'$4.$ per-bin NLA': (0.781, 0.024,'#000000'),
-         r'$5.$ Fixed $\nu$' : ( 0.773, 0.024,'#000000'),
+         r'$5.$ $A_1>0$ prior': (0.768, 0.023,'#000000'),
+         r'$6.$ Fixed $\nu$' : ( 0.773, 0.024,'#000000'),
         # r'Linear Theory' : (0.74,0.06),
-         r'$6.$ $w$CDM': (0.738,0.035,'#000000'),
-         r'$7.$ HMCode $P(k)$' : (0.76,0.05,'#000000'),
-         r'$8.$ $\Omega_{\rm b} h^2$ Prior': (0.73,0.06,'#000000'), 
-         r'$9.$ External BAO+SN': (0.74,0.07,'#191970'),
-         r'$10.$ Planck 18 TT+TE+EE': (0.827,0.016,'#8b0000'),
-         r'$11.$ Planck 18 TT+TE+EE ($w$CDM)': (0.,0.016,'#ffc0cb'),
-         r'$12.$ KiDS-1000': (0.759,0.024,'#FA86C9'),
-         r'$13.$ HSC Y1':(0.804,0.032,'#228B22')}
+         r'$7.$ $w$CDM': (0.738,0.035,'#000000'),
+         r'$8.$ HMCode $P(k)$' : (0.782, 0.027,'#000000'),
+         #r'$8.$ $\Omega_{\rm b} h^2$ Prior': (0.764, 0.024,'#000000'), 
+        # r'$9.$ DES + BAO + SN': (0.769, 0.020,'#191970'),
+         r'$9.$ Planck 18 TT+TE+EE': (0.827,0.016,'#8b0000'),
+         r'$10.$ Planck 18 TT+TE+EE ($w$CDM)': (0.,0.016,'#ffc0cb'),
+         r'$11.$ KiDS-1000': (0.759,0.024,'#FA86C9'),
+         r'$12.$ HSC Y1':(0.804,0.032,'#228B22'),
+         r'$13.$ DES Y1 (NLA) ':(0.778,0.032,'#191970'),
+         r'$14.$ DES Y1 (TATT) ':(0.726,0.057,'#191970')}
          #r'Low-$z$ External': (0.75,0.015)}
 
 ninputs = len(inputs.keys())
@@ -65,12 +68,12 @@ for i,label in enumerate(inputs.keys()):
 		plt.axvspan(X-dX,X+dX,color='plum',alpha=0.2)
 		plt.axvline(X,color='k',ls=':')
 
-	if label==r'$9.$ External BAO+SN':
+	if label==r'$9.$ Planck 18 TT+TE+EE':
 		plt.axhline(y+(dy/2), color='k', ls='--')
 
 
 	
-	plt.annotate(label,xy=(0.42,y-(dy/8)), fontsize=fontsize, color=colour)
+	plt.annotate(label,xy=(0.415,y-(dy/8)), fontsize=fontsize, color=colour)
 	print(label)
 
 	y-=dy
@@ -80,12 +83,21 @@ plt.savefig('s8_robustness_summary.pdf')
 plt.savefig('s8_robustness_summary.png')
 
 plt.close()
+exit()
+
+
+
+
+
+
+
+
 
 
 plt.subplot(111)
 
 
-plt.xlim(0.45,0.95)
+plt.xlim(0.45,0.9)
 plt.ylim(0.0,1.1)
 plt.yticks(visible=False)
 
