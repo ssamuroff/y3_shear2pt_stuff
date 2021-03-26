@@ -6,12 +6,10 @@ import pylab as plt
 import matplotlib
 from matplotlib import rcParams
 from matplotlib.ticker import (MultipleLocator, FormatStrFormatter, AutoMinorLocator)
-import os, sys
-
-# adjust these as needed
-ymin = -4.
-ymax = 1.
-yticks = np.linspace(ymin,ymax,5)
+import os
+from tools.cosmosis import cosmosis_tools as ct
+import tools.emcee as mc
+from string import Template as Tm
 
 lims={}
 lims["+"]={}
@@ -72,9 +70,13 @@ positions={
     (4,4,"+"):19,
     (4,4,"-"):27}
 
-
+ymin = -0.2
+ymax = 0.2
+yticks = np.linspace(ymin,ymax,5)
 markersize=2.5
 ytickfontsize=10
+
+F=1.
 
 rcParams['xtick.major.size'] = 1.5
 rcParams['xtick.minor.size'] = 0.75
@@ -84,9 +86,20 @@ rcParams['xtick.direction']='in'
 rcParams['ytick.direction']='in'
 
 
+def get_theory_spectra(i,j,filename):
+    theta = np.loadtxt("%s/shear_xi_plus/theta.txt"%filename)
+    theta = theta * 60. * 180. / np.pi
+    xip = np.loadtxt("%s/shear_xi_plus/bin_%d_%d.txt"%(filename,i+1,j+1))
+    xim = np.loadtxt("%s/shear_xi_minus/bin_%d_%d.txt"%(filename,i+1,j+1))
 
+    xip_gi = np.loadtxt("%s/shear_xi_gi_plus/bin_%d_%d.txt"%(filename,i+1,j+1))
+    xim_gi = np.loadtxt("%s/shear_xi_gi_minus/bin_%d_%d.txt"%(filename,i+1,j+1))
 
-def get_spectra(i,j,fits,error=True):
+    xip_ii = np.loadtxt("%s/shear_xi_ii_plus/bin_%d_%d.txt"%(filename,i+1,j+1))
+    xim_ii = np.loadtxt("%s/shear_xi_ii_minus/bin_%d_%d.txt"%(filename,i+1,j+1))
+    return theta, xip, xim, xip_gi, xim_gi, xip_ii, xim_ii
+
+def get_real_spectra(i,j,fits,error=True):
     if fits is None:
         return [],[],[]
     else:
@@ -125,10 +138,14 @@ def get_spectra(i,j,fits,error=True):
 
         return (xp,xip,errp), (xm,xim,errm)
 
-
+def get_modifier(x,dxi,target):
+    if len(dxi)==0: return 0
+    import scipy.interpolate as interp
+    interpolator = interp.interp1d(np.log10(x),dxi) 
+    return interpolator(np.log10(target))
     
 
-def cornerplot(path1, path2, show_cuts=False):
+def cornerplot(model1, model2, show_cuts=False):
 
     plt.switch_backend("pdf")
     plt.style.use("y1a1")
@@ -138,21 +155,18 @@ def cornerplot(path1, path2, show_cuts=False):
     matplotlib.rcParams["ytick.major.size"]=2.5
     matplotlib.rcParams["xtick.major.size"]=2.5
     matplotlib.rcParams["xtick.minor.size"]=1.8
-
-    # number of redshift bins
     ni,nj=4,4
+    #ni,nj=np.genfromtxt("%s/shear_xi_plus/values.txt"%theory1[0]).T[2]
     ni = int(ni)
     nj = int(nj)
+    #if data is not None:
+    #    data = fi.FITS(data)
+
 
     rows, cols = ni+1, nj+2
 
     count = 0
 
-    # open the FITS files once here
-    fits1 = fi.FITS(path1)
-    fits2 = fi.FITS(path2)
-
-    # loop over all bin pairs
     for i in range(ni):
         for j in range(nj):
             count+=1
@@ -160,14 +174,15 @@ def cornerplot(path1, path2, show_cuts=False):
                 continue
 
             print(i,j)
+            #(xp,xip,dxip),(xm,xim,dxim) = get_real_spectra(i,j,data,error=True)
 
-            # work out which subplot to use
+
             posp = positions[(i+1,j+1,"+")]
             ax = plt.subplot(rows,cols,posp)
             ax.annotate("(%d, %d)"%(i+1,j+1), (3.,(yticks[0]+yticks[1])/2), textcoords='data', fontsize=9, )
             ax.yaxis.set_tick_params(which='minor', left='off', right='off')
             plt.ylim(ymin,ymax)
-            
+            #plt.yscale("log")
             plt.xscale("log")
             if (posp==19) or (posp==1) or (posp==7) or (posp==13):
                 plt.yticks(visible=True)
@@ -177,7 +192,7 @@ def cornerplot(path1, path2, show_cuts=False):
                 plt.yticks(visible=False)
 
             if (posp==19):
-                plt.ylabel(r"$ \Delta \xi_+/\xi_+$", fontsize=11)
+                plt.ylabel(r"$\theta \xi_+ \times 10^{4}$", fontsize=11)
                 plt.xlabel(r"$\theta \;\; [ \mathrm{arcmin} ]$", fontsize=10)
             else:
                 pass
@@ -197,28 +212,41 @@ def cornerplot(path1, path2, show_cuts=False):
                 plt.axvspan(xupper, 500, color='gray',alpha=0.2)
 
 
-            # load and cut the data
-            (xp_1,xip_1,dxip_1),(xm_1,xim_1,dxim_1) = get_spectra(i,j,fits1)
-            (xp_2,xip_2,dxip_2),(xm_2,xim_2,dxim_2) = get_spectra(i,j,fits2)
 
-            # going to assume the theta binning is the same for the two
-            plt.plot(xp_1,(xip_1-xip_2)/xip_1,color='darkmagenta',lw=1.5)
+            linestyles=['-',':','--','-']
 
+            xta,xip_theory_a,xim_theory_a, xip_theory_gi_a,xim_theory_gi_a, xip_theory_ii_a,xim_theory_ii_a = get_theory_spectra(i,j,model1)
+            xtb,xip_theory_b,xim_theory_b, xip_theory_gi_b,xim_theory_gi_b, xip_theory_ii_b,xim_theory_ii_b = get_theory_spectra(i,j,model2)
 
-            # The same as everything above, but for xim
+           # import pdb ; pdb.set_trace()
+
+           # xip_a_remapped = (interp_xip_a(np.log10(xip_a[0])))
+           # xip_b_remapped = (interp_xip_b(np.log10(xip_b[0])))
+
+            #plt.errorbar(xp, xp*xip*1e4, yerr=xp*dxip*1e4, marker='.', linestyle='none', markerfacecolor='k', markeredgecolor='k', ecolor='k',markersize=markersize)
+           # p1 = plt.plot(xta,xta*xip_theory*1e4,color='darkmagenta',lw=1.5, label='GG+GI+II')
+           # plt.plot(xta,F*xta*(xip_theory_gi+xip_theory_ii)*1e4,color='steelblue',lw=1., ls='-', label='GI')
+            p2 = plt.plot(xta,F*xta*xip_theory_gi_a*1e4,color='plum',lw=1.5, ls='-', label='GI (TATT)')
+            p3 = plt.plot(xta,F*xta*xip_theory_ii_a*1e4,color='midnightblue',lw=1.5, ls='-', label='II (TATT)')
+            p4 = plt.plot(xtb,F*xtb*xip_theory_gi_b*1e4,color='plum',lw=1.5, ls='--', label='GI (NLA)')
+            p5 = plt.plot(xtb,F*xtb*xip_theory_ii_b*1e4,color='midnightblue',lw=1.5, ls='--', label='II (NLA)')
+
+            #plt.plot(xip_a[0], (xip_b_remapped-xip_a_remapped)/xip_b_remapped, ls=linestyles[iline], color="darkmagenta")
+              #  plt.plot(xip_b[0], 1e5*(xip_b[1]-xip_b_remapped), ls=linestyles[iline], color="royalblue")
+
             posm = positions[(i+1,j+1,"-")]
             ax = plt.subplot(rows,cols,posm)
             ax.annotate("(%d, %d)"%(i+1,j+1), (3,(yticks[0]+yticks[1])/2), textcoords='data', fontsize=9, )
             ax.yaxis.set_tick_params(which='minor', left='off', right='off')
-
-            #import pdb ; pdb.set_trace()
-
+       #     ax.xaxis.set_tick_params(which='minor', bottom='on', top='off')
             plt.ylim(ymin,ymax)
             ax.yaxis.set_ticks_position("right")
             ax.yaxis.set_label_position("right")
             
             if (posm==30) or (posm==12) or (posm==18) or (posm==24):
                 plt.yticks(visible=True)
+                #plt.ylabel(r"$\Delta \xi_+(\theta)/\xi_+$", fontsize=12)
+                #plt.xlabel(r"$\theta$ / arcmin", fontsize=12)
                 ax.yaxis.set_label_position("right")
                 plt.yticks(yticks,fontsize=ytickfontsize)
 
@@ -226,7 +254,7 @@ def cornerplot(path1, path2, show_cuts=False):
                 plt.yticks(visible=False)
 
             if (posm==30):
-                plt.ylabel(r"$ \Delta \xi_-/ \xi_-$", fontsize=11)
+                plt.ylabel(r"$\theta \xi_-\times 10^{4}$", fontsize=11)
                 plt.yticks(yticks[:-1],fontsize=ytickfontsize)
 
             else:
@@ -234,13 +262,18 @@ def cornerplot(path1, path2, show_cuts=False):
 
             if posm in [30,29,28,27]:
                 plt.xlabel(r"$\theta \;\; [ \mathrm{arcmin} ]$ ", fontsize=10)
-            
+            #plt.yscale("log")
             plt.xscale("log")
             plt.xlim(2.2,270)
-
+         #   if (posm==27):
+          #      plt.xticks([1,10,100],["1","10", "100"], fontsize=9)
+          #  else:
             plt.xticks([10,100],["10", "100"], fontsize=9)
+            #ax.xaxis.grid(True, which='minor')
+     
+#            ax.xaxis.set_minor_locator(MultipleLocator(10))
 
-            plt.yticks(yticks[:-1],fontsize=ytickfontsize)
+            #plt.yticks([-2,0,2,4,6,8],['-2', '0', '2', '4', '6', '8'])
             plt.axhline(0, color='k', ls=':')
 
             if show_cuts:
@@ -248,25 +281,47 @@ def cornerplot(path1, path2, show_cuts=False):
                 plt.axvspan(1e-6, xlower, color='gray',alpha=0.2)
                 plt.axvspan(xupper, 500, color='gray',alpha=0.2)
 
-            plt.plot(xm_1,(xim_1-xim_2)/xim_1,color='darkmagenta',lw=1.5)
+            #plt.errorbar(xm, xm*xim*1e4, yerr=xm*dxim*1e4, marker='.', linestyle='none', markerfacecolor='k', markeredgecolor='k', ecolor='k',markersize=markersize)
+            p2 = plt.plot(xta,F*xta*xim_theory_gi_a*1e4,color='plum',lw=1.5, ls='-', label='GI (TATT)')
+            p3 = plt.plot(xta,F*xta*xim_theory_ii_a*1e4,color='midnightblue',lw=1.5, ls='-', label='II (TATT)')
+            p4 = plt.plot(xtb,F*xtb*xim_theory_gi_b*1e4,color='plum',lw=1.5, ls='--', label='GI (NLA)')
+            p5 = plt.plot(xtb,F*xtb*xim_theory_ii_b*1e4,color='midnightblue',lw=1.5, ls='--', label='II (NLA)')
 
 
-    #box = ax.get_position()
-    #ax.set_position([box.x0, box.y0, box.width*0.65, box.height])
-    #legend_x = 4.2
-    #legend_y = 5.2
-    #proxies = [plt.Line2D([0,2.5], [0,0], linestyle=ls, linewidth=1.5, color=lc) for ls,lc in [('-','darkmagenta'),('-','pink'),('--','pink'),(':','midnightblue')]]
-    #plt.legend(proxies,["GG+GI+II", "GI+II"], loc='upper right', bbox_to_anchor=(legend_x, legend_y), fontsize=9)
+                #plt.plot(xim_a[0], 1e5*(xim_a[1]-xim_a_remapped), ls=linestyles[iline], color="red")
+                #plt.plot(xim_b[0], 1e5*(xim_b[1]-xim_b_remapped), ls=linestyles[iline], color="royalblue")
+             #   plt.plot(xip_a[0], (xim_b_remapped-xim_a_remapped)/xim_b_remapped, ls=linestyles[iline], color="darkmagenta")
+
+    plt.legend([p2,p3,p4,p5],title='title', bbox_to_anchor=(1.05, 1), loc='upper right', fontsize=12)
+
+#    ax = plt.subplot(111)
+    box = ax.get_position()
+    ax.set_position([box.x0, box.y0, box.width*0.65, box.height])
+    legend_x = 4.2
+    legend_y = 5.2
+    proxies = [plt.Line2D([0,2.5], [0,0], linestyle=ls, linewidth=1.5, color=lc) for ls,lc in [('-','plum'),('-','midnightblue'),('--','plum'),(':','midnightblue')]]
+    plt.legend(proxies,['GI (TATT)', 'II (TATT)', 'GI (NLA)', 'II (NLA)'], loc='upper right', bbox_to_anchor=(legend_x, legend_y), fontsize=9)
 
     plt.subplots_adjust(hspace=0,wspace=0, bottom=0.14,left=0.14, right=0.88)
-    os.system('mkdir plots/')
-    #plt.savefig("plots/unblinded_datavector_xipm_diff.pdf")
-    plt.savefig("plots/unblinded_datavector_xipm_diff.png")
+    plt.savefig("plots/theory_ias_datavector_xipm.pdf")
+    plt.savefig("plots/theory_ias_datavector_xipm.png")
 
 
 
 
 
-cornerplot(sys.argv[1], sys.argv[2], show_cuts=True)
+
+def main(args):
+   
+    cornerplot(args.model1,
+               args.model2, show_cuts=True)
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(add_help=False)
+    parser.add_argument('--model1',"-m", type=str, action='store', default='none')
+    parser.add_argument('--model2',"-n", type=str, action='store')
+
+    args = parser.parse_args()
 
 
+    main(args)

@@ -20,9 +20,9 @@ print('Loading chains...')
 
 base = '/Volumes/groke/work/chains/y3/real/external/'
 #c1 = mc.chain(base+'fiducial/chain_1x2pt_hyperrank_2pt_NG_BLINDED_v0.40cov_xcorrGGL_27072020_SOMPZWZsamples_pit.fits_scales_3x2pt_0.5_8_6_v0.4.ini_lcdm.txt')
-c1 = mc.chain(base+'chain_s_b_wcdm.txt')
-c2 = mc.chain(base+'chain_p-lensing_wcdm.txt')
-c3 = mc.chain(base+'../chain_1x2pt_wcdm.txt')
+c1 = mc.chain('chains/external/chain_s_b_wcdm.txt')
+c2 = mc.chain('chains/external/chain_p-lensing_wcdm.txt')
+c3 = mc.chain('chains/data/chain_1x2pt_wcdm_022421_covupdate.v2.txt')
 #c4 = mc.chain(base+'')
 
 

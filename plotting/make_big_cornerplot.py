@@ -19,7 +19,7 @@ print('Loading chains...')
 
 base = '/Volumes/groke/work/chains/y3/real/'
 #c1 = mc.chain(base+'fiducial/chain_1x2pt_hyperrank_2pt_NG_BLINDED_v0.40cov_xcorrGGL_27072020_SOMPZWZsamples_pit.fits_scales_3x2pt_0.5_8_6_v0.4.ini_lcdm.txt')
-c1 = mc.chain(base+'chain_1x2pt_lcdm.txt')
+c1 = mc.chain(base+'maglim/unblinding/chain_1x2pt_lcdm_SR_maglim.txt')
 
 c2 = mc.chain('chains/chain_prior.txt')
 #c2 = mc.chain(base+'external/chain_p-TTTEEE-lowE_lcdm.txt')
@@ -64,6 +64,9 @@ names_dict = {'cosmological_parameters--omega_m': r'$\Omega_{\rm m}$',
     'lens_photoz_errors--bias_1' : r'$\Delta z^1_{l}$',
     'lens_photoz_errors--bias_2' : r'$\Delta z^2_{l}$', 
     'lens_photoz_errors--bias_3' : r'$\Delta z^3_{l}$', 
+    'lens_photoz_errors--width_1' : r'$\delta^1_{l}$',
+    'lens_photoz_errors--width_2' : r'$\delta^2_{l}$', 
+    'lens_photoz_errors--width_3' : r'$\delta^3_{l}$', 
     'bias_lens--b1' : r'$b_1$', 
     'bias_lens--b2' : r'$b_2$', 
     'bias_lens--b3' : r'$b_3$', 
@@ -122,5 +125,5 @@ g.triangle_plot([samples],['x%d'%(i+1) for i in range(nparam)], upper_kwargs={'s
 #g.subplots[2][2].set_xticks(sig8_ticks)
 
 #g.add_legend(['DES Y3','HSC Y1'])
-plt.savefig('/Users/hattifattener/Documents/y3cosmicshear/plots/cs2/giant_cornerplot_nprior.pdf')
-plt.savefig('/Users/hattifattener/Documents/y3cosmicshear/plots/cs2/giant_cornerplot_nprior.png')
+plt.savefig('/Users/hattifattener/Documents/y3cosmicshear/plots/cs2/giant_cornerplot_nprior_maglim.pdf')
+plt.savefig('/Users/hattifattener/Documents/y3cosmicshear/plots/cs2/giant_cornerplot_nprior_maglim.png')

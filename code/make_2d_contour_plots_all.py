@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as pl
 import matplotlib
 import pdb
+import sys
 import scipy.optimize as op
 import scipy.special as spsp
 from getdist.paramnames import escapeLatex, makeList, mergeRenames
@@ -159,12 +160,11 @@ s8v = 0.8 * (0.3/0.3)**0.5
 marker_dict = {'cosmological_parameters--omega_m':0.3,'COSMOLOGICAL_PARAMETERS--SIGMA_8':0.8,'cosmological_parameters--s8':s8v,'cosmological_parameters--omega_b':0.048,'cosmological_parameters--h0':0.69,'cosmological_parameters--n_s':0.97,'bias_lens--b3':1.7,'cosmological_parameters--w':-1.0}    
 
 # Baseline and contaminated chains. First should be baseline and second contaminated
-filename_list = [
-    '/Volumes/groke/work/chains/y3/real/chain_1x2pt_lcdm.txt', '/Volumes/groke/work/chains/y3/real/chain_NLA_1x2pt_lcdm.txt'
-]     
+filename_list = [sys.argv[1], sys.argv[2]]     
 
 # Plot save name
-savefname = 'nla_tatt_1x2pt_lcdm.pdf'
+savefname = 'maglim_stresstest.png'
+#'nla_tatt_1x2pt_lcdm.pdf'
 
 # potential parameters to analyze in 2D plots. Make sure they are here. The syntax is the (parameter_name_in_chain:latex_name)
 fancy_dictionary = {'cosmological_parameters--omega_m':r'$\Omega_m$','cosmological_parameters--s8':r'$S_8$','cosmological_parameters--w':r'$w_0$'}  
@@ -243,10 +243,39 @@ ax.axhline(param2_truth,ls='--',alpha=0.3,color='k')
 
 #ax.set_xlim(xlims[0],xlims[1])
 #ax.set_ylim(ylims[0],ylims[1])
-ax.plot([param1_cont],[param2_cont], linestyle='', marker='o', color='b',label='Contaminated')
-ax.plot([param1_base],[param2_base], linestyle='', marker='s', color='r',label='Baseline')
-ax.plot(line[0][:,0],line[0][:,1], linestyle='--', marker='',lw=1, color='red',label=r'$0.3 \sigma$ Baseline')
-ax.plot(line_cont[0][:,0],line_cont[0][:,1], linestyle='--', marker='',lw=1, color='blue',label=r'$0.3 \sigma$ Contaminated')
+ax.plot([param1_cont],[param2_cont], linestyle='', marker='o', color='pink',label='Contaminated')
+ax.plot([param1_base],[param2_base], linestyle='', marker='s', color='darkmagenta',label='Baseline')
+ax.plot(line[0][:,0],line[0][:,1], linestyle='--', marker='',lw=1, color='darkmagenta',label=r'$0.3 \sigma$ Baseline')
+ax.plot(line_cont[0][:,0],line_cont[0][:,1], linestyle='--', marker='',lw=1, color='pink',label=r'$0.3 \sigma$ Contaminated')
+
+
+from scipy.interpolate import interp1d 
+def get_ellipse(x,y): 
+    # use the gradient of the x coordinates to distinguish upper and lower parts of the ellipse
+    dx = np.gradient(x)
+    y_upper = y[dx<0]
+    x_upper = x[dx<0]
+
+    # sort them by x
+    y_upper = y_upper[np.argsort(x_upper)]
+    x_upper = x_upper[np.argsort(x_upper)] 
+
+    y_lower = y[dx>0]
+    x_lower = x[dx>0]
+
+    y_lower = y_lower[np.argsort(x_lower)]
+    x_lower = x_lower[np.argsort(x_lower)] 
+
+    # interpolate so the x axis points match
+    y_lower = interp1d(x_lower,y_lower, fill_value="extrapolate")(x_upper)
+
+    return x_upper, y_lower, y_upper
+
+x0,y0_lower,y0_upper = get_ellipse(line_cont[0][:,0],line_cont[0][:,1])
+ax.fill_between(x0,y0_lower,y2=y0_upper, color='pink',alpha=0.2)
+
+x1,y1_lower,y1_upper = get_ellipse(line[0][:,0],line[0][:,1])
+ax.fill_between(x1,y1_lower,y2=y1_upper, color='darkmagenta',alpha=0.2)
 
 ax.annotate('', xy=(param1_truth, param2_truth), xytext=(param1_base, param2_base),
             arrowprops={'arrowstyle': '->'}, va='center')
@@ -266,10 +295,10 @@ ax.tick_params(axis='both', which='minor', labelsize=15)
 # you might need to change the fracx, fracy by a little bit for the text to not overlap with the lines and show correctly around arrows
 # Also you might need to rotate the angle by 180 to have correct orientation
 
-# fracx, fracy, angle = get_frac_angle(np.array([param1_base,param2_base]),np.array([param1_cont, param2_cont]),xlims, ylims)
-# ax.text( fracx, fracy,str(np.round(res_base_cont[0],2)) + r'$\sigma$', verticalalignment='top', rotation=angle, horizontalalignment='left', transform=ax.transAxes, fontsize=16)    
+fracx, fracy, angle = get_frac_angle(np.array([param1_base,param2_base]),np.array([param1_cont, param2_cont]),xlims, ylims)
+ax.text( fracx, fracy,str(np.round(res_base_cont[0],2)) + r'$\sigma$', verticalalignment='top', rotation=angle, horizontalalignment='left', transform=ax.transAxes, fontsize=16, color='darkmagenta')    
 fracx, fracy, angle = get_frac_angle(np.array([param1_cont, param2_cont]),np.array([param1_base,param2_base]),xlims, ylims)
-ax.text( fracx, fracy,str(np.round(res_cont_base[0],2)) + r'$\sigma$', rotation=angle, fontsize=16) 
+ax.text( fracx, fracy,str(np.round(res_cont_base[0],2)) + r'$\sigma$', rotation=angle, fontsize=16, color='hotpink') 
 fracx, fracy, angle = get_frac_angle(np.array([param1_base,param2_base]), np.array([param1_truth, param2_truth]),xlims, ylims)
 ax.text( fracx, fracy,str(np.round(res_truth_base[0],2)) + r'$\sigma$',  rotation=angle, fontsize=16)    
 fracx, fracy, angle = get_frac_angle(np.array([param1_cont, param2_cont]),np.array([param1_truth,param2_truth]),xlims, ylims)

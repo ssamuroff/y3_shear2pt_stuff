@@ -30,8 +30,8 @@ class chain:
 			if name.lower()!=name:
 				self.samples.rename_column(name,name.lower())
 
-	def add_s8(self):
-		newcol = self.samples['cosmological_parameters--sigma_8']*((self.samples['cosmological_parameters--omega_m']/0.3)**0.5)
+	def add_s8(self, alpha=0.5):
+		newcol = self.samples['cosmological_parameters--sigma_8']*((self.samples['cosmological_parameters--omega_m']/0.3)**alpha)
 		newcol = tb.Column(newcol, name="cosmological_parameters--s8")
 
 		self.samples = tb.Table(self.samples)
@@ -46,7 +46,7 @@ class chain:
 		self.npar+=1
 
 c = chain(sys.argv[-1])
-c.add_s8()
+c.add_s8(alpha=0.59)
 
 X = np.sum(c.samples['cosmological_parameters--s8']*c.weight)/np.sum(c.weight)
 dX = np.sqrt(np.sum((c.samples['cosmological_parameters--s8']-X)**2*c.weight)/np.sum(c.weight))

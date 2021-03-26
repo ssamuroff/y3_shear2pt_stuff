@@ -1,3 +1,4 @@
+ 
 import numpy as np
 import os
 import pylab as plt
@@ -18,7 +19,8 @@ print('Loading chains...')
 
 base = '/Users/hattifattener/Documents/y3cosmicshear/chains/'
 
-c0 = mc.chain('/Volumes/groke/work/chains/y3/real/chain_1x2pt_lcdm.txt')
+c0 = mc.chain('/Volumes/groke/work/chains/y3/real/maglim/unblinding/trimmed_chains/chain_1x2pt_lcdm_SR_maglim.txt')
+	#chain_1x2pt_lcdm.txt')
 c1 = np.genfromtxt(base+'/external/lensing/HSC_Y1_LCDM_post_fid.txt',names=True)
 c2 = mc.chain('/Volumes/groke/work/chains/y1/fiducial/all/out_all-1x2pt-NG.txt')
 c3 = mc.chain('/Volumes/groke/work/other_peoples_datasets/kids1000/KiDS1000_Cosebis_output_multinest_C.txt')
@@ -50,7 +52,7 @@ cc = ChainConsumer()
 #import pdb ; pdb.set_trace()
 
 
-names = [r'$\Omega_{\rm m}$','$S_8$','$A_1$']
+names = [r'$\Omega_{\rm m}$','$S_8$','$a_1$']
 names2 = [r'$\Omega_{\rm m}$','$S_8$','$A_1$', r'$\eta_1$', '$A_2$', r'$\eta_2$', r'$b_{\rm TA}$']
 
 cc.add_chain(samp0.T, parameters=names, weights=c0.weight, kde=2., name=r'DES Y3')
@@ -60,7 +62,10 @@ cc.add_chain(samp3.T, parameters=names, weights=c3.weight, kde=2., name=r'KiDS-1
 
 cc.add_chain(samp4.T, parameters=names[:-1], weights=c4.weight, kde=2., name=r'Planck 18')
 
-
+#7223AD
+#A4CD64
+#3775A1
+#DD9EE8
 
 cc.configure(colors=['#FA86C9', '#228B22','#191970', '#ffc0cb','#7223AD', ],diagonal_tick_labels=False,kde=[2.0, 2.0, 3.0,2.0,2.0],shade=[True,False,False,False,True]*3, shade_alpha=[0.7, 0.05, 0.05,0.05,0.65], legend_kwargs={"loc": "upper right", "fontsize": 16},label_font_size=12,tick_font_size=9)
 #cc.configure(colors=['#800080', '#800080', '#FF1493', '#000000' ],shade=[False,True,True,False], shade_alpha=[0.25,0.25,0.25], max_ticks=4, kde=[6]*5, linestyles=["-", "-", '-.', '--'], legend_kwargs={"loc": "upper right", "fontsize": 14},label_font_size=14,tick_font_size=14) 
@@ -72,8 +77,8 @@ fig = cc.plotter.plot(extents={'$S_8$':(0.62,0.95),r'$\Omega_{\rm m}$':(0.08,0.5
 plt.subplots_adjust(bottom=0.175,left=0.175, hspace=0, wspace=0)
 
 print('Saving...')
-plt.savefig('/Users/hattifattener/Documents/y3cosmicshear/plots/1x2pt_external.pdf')
-plt.savefig('/Users/hattifattener/Documents/y3cosmicshear/plots/1x2pt_external.png')
+plt.savefig('/Users/hattifattener/Documents/y3cosmicshear/plots/1x2pt_external_maglim.pdf')
+plt.savefig('/Users/hattifattener/Documents/y3cosmicshear/plots/1x2pt_external_maglim.png')
 
 plt.close()
 from getdist import plots, MCSamples
@@ -98,7 +103,12 @@ samples3 = MCSamples(samples=samp2.T,names=['x1','x2','x3'], labels=names, label
 samples4 =MCSamples(samples=samp3.T,names=['x1','x2','x3'], labels=names, label='KiDS-1000', weights=c3.weight, settings={'boundary_correction_order':0, 'mult_bias_correction_order':1})
 samples5 = MCSamples(samples=samp4.T,names=['x1','x2'], labels=names[:-1], label='Planck 18', weights=c4.weight, settings={'boundary_correction_order':0, 'mult_bias_correction_order':1})
 
-g.triangle_plot([samples, samples2, samples3, samples4, samples5],['x1','x2','x3'], filled=[True,False,False,False,True], contour_colors=['#FA86C9','#228B22','#4682b4','#ffc0cb','#7223AD' ], labels=['DES Y3', 'HSC Y1', 'DES Y1', 'KiDS-1000', 'Planck 18'], param_limits={'x1':(0.05,0.48), 'x2':(0.6,0.9), 'x3':(-2,3.5)}) #, markers=[[0.15,0.3,0.45], [0.6,0.7,0.8,0.9], [-2,-1,0,1,2,3]])
+
+#7223AD
+#A4CD64
+#3775A1
+#DD9EE8
+g.triangle_plot([samples, samples2, samples3, samples4, samples5],['x1','x2','x3'], diag1d_kwargs={'normalized':True}, contour_args=[{'alpha':0.6},{'alpha':1},{'alpha':1.},{'alpha':1.},{'alpha':0.6}], filled=[True,False,False,False,True], contour_colors=['#7223AD','#3775A1','#DD9EE8','#FF69B4','#A4CD64' ], labels=['DES Y3', 'HSC Y1', 'DES Y1', 'KiDS-1000', 'Planck 18'], param_limits={'x1':(0.05,0.48), 'x2':(0.6,0.9), 'x3':(-2,3.5)}) #, markers=[[0.15,0.3,0.45], [0.6,0.7,0.8,0.9], [-2,-1,0,1,2,3]])
 #import pdb ; pdb.set_trace()
 
 s8_ticks = [0.65,0.75,0.85]
@@ -117,5 +127,6 @@ g.subplots[2][1].set_xticks(s8_ticks)
 g.subplots[2][2].set_xticks(a1_ticks)
 
 #g.add_legend(['DES Y3','HSC Y1'])
-plt.savefig('/Users/hattifattener/Documents/y3cosmicshear/plots/1x2pt_external_getdist.pdf')
-plt.savefig('/Users/hattifattener/Documents/y3cosmicshear/plots/1x2pt_external_getdist.png')
+plt.savefig('/Users/hattifattener/Documents/y3cosmicshear/plots/1x2pt_external_getdist_maglim.pdf')
+plt.savefig('/Users/hattifattener/Documents/y3cosmicshear/plots/1x2pt_external_getdist_maglim.png')
+
