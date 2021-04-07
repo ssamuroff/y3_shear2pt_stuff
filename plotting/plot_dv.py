@@ -93,8 +93,8 @@ def get_theory_spectra(i,j,filename):
     xip_gi = np.loadtxt("%s/shear_xi_gi_plus/bin_%d_%d.txt"%(filename,i+1,j+1))
     xim_gi = np.loadtxt("%s/shear_xi_gi_minus/bin_%d_%d.txt"%(filename,i+1,j+1))
 
-    xip_ii = np.loadtxt("%s/shear_xi_ii_plus/bin_%d_%d.txt"%(filename,i+1,j+1))
-    xim_ii = np.loadtxt("%s/shear_xi_ii_minus/bin_%d_%d.txt"%(filename,i+1,j+1))
+    xip_ii = np.loadtxt("%s/shear_xi_plus_ii/bin_%d_%d.txt"%(filename,i+1,j+1))
+    xim_ii = np.loadtxt("%s/shear_xi_minus_ii/bin_%d_%d.txt"%(filename,i+1,j+1))
     return theta, xip, xim, xip_gi, xim_gi, xip_ii, xim_ii
 
 def get_real_spectra(i,j,fits,error=True):
@@ -300,8 +300,8 @@ def cornerplot(theory, data, show_cuts=False):
     plt.legend(proxies,["GG+GI+II", r"$10 \times$ GI+II", r"$10 \times$ GI", r'$10 \times$ II'], loc='upper right', bbox_to_anchor=(legend_x, legend_y), fontsize=9)
 
     plt.subplots_adjust(hspace=0,wspace=0, bottom=0.14,left=0.14, right=0.88)
-    plt.savefig("plots/unblinded_datavector_xipm.pdf")
-    plt.savefig("plots/unblinded_datavector_xipm.png")
+    plt.savefig("plots/unblinded_datavector_xipm_maglimbf.pdf")
+    plt.savefig("plots/unblinded_datavector_xipm_maglimbf.png")
 
 
 

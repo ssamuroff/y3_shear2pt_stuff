@@ -26,7 +26,6 @@ c3 = mc.chain(base+'chain_1x2pt_fiducial_v0.40_noiseless_788.fits_scales_3x2pt_0
 c4 = mc.chain(base+'chain_1x2pt_fiducial_v0.40_noiseless_328.fits_scales_3x2pt_0.5_8_6_v0.4.ini_lcdm.txt')
 
 
-
 c1.add_s8()
 c2.add_s8()
 c3.add_s8()

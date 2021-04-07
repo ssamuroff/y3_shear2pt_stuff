@@ -163,7 +163,7 @@ marker_dict = {'cosmological_parameters--omega_m':0.3,'COSMOLOGICAL_PARAMETERS--
 filename_list = [sys.argv[1], sys.argv[2]]     
 
 # Plot save name
-savefname = 'maglim_stresstest.png'
+savefname = 'maglim_3x2pt_scalecuts.png'
 #'nla_tatt_1x2pt_lcdm.pdf'
 
 # potential parameters to analyze in 2D plots. Make sure they are here. The syntax is the (parameter_name_in_chain:latex_name)

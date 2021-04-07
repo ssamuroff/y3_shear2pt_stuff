@@ -97,6 +97,8 @@ g.subplots[2][1].set_yticks(sig8_ticks)
 g.subplots[2][1].set_xticks(s8_ticks)
 g.subplots[2][2].set_xticks(sig8_ticks)
 
+plt.suptitle(r'RM SR', fontsize=16)
+plt.subplots_adjust(top=0.94)
 #g.add_legend(['DES Y3','HSC Y1'])
 plt.savefig('/Users/hattifattener/Documents/y3cosmicshear/plots/cs2/blinded_y3cs_degeneracies.pdf')
 plt.savefig('/Users/hattifattener/Documents/y3cosmicshear/plots/cs2/blinded_y3cs_degeneracies.png')

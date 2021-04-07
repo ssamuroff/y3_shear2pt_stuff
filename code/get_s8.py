@@ -46,7 +46,8 @@ class chain:
 		self.npar+=1
 
 c = chain(sys.argv[-1])
-c.add_s8(alpha=0.59)
+c.add_s8(alpha=0.56)
+#s8_0.560
 
 X = np.sum(c.samples['cosmological_parameters--s8']*c.weight)/np.sum(c.weight)
 dX = np.sqrt(np.sum((c.samples['cosmological_parameters--s8']-X)**2*c.weight)/np.sum(c.weight))
