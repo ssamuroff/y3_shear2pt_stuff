@@ -75,10 +75,10 @@ delta_param_names = ['delta_'+name for name in selected_params]
 delta_param_names_full = ['delta_'+name for name in full_params]
 
 #plot out the difference chain
-g = plots.get_single_plotter()
-g.triangle_plot(diff_chain, delta_param_names, filled=True, markers={name:0. for name in delta_param_names}, contour_args={'alpha':0.6}, contour_colors=['darkmagenta'])
-plt.savefig('plots/param_diff_distribution.png')
-plt.close()
+#g = plots.get_single_plotter()
+#g.triangle_plot(diff_chain, delta_param_names, filled=True, markers={name:0. for name in delta_param_names}, contour_args={'alpha':0.6}, contour_colors=['darkmagenta'])
+#plt.savefig('plots/param_diff_distribution.png')
+#plt.close()
 
 
 # now work out the shift in terms of sigma
