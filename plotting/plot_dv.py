@@ -11,6 +11,16 @@ from tools.cosmosis import cosmosis_tools as ct
 import tools.emcee as mc
 from string import Template as Tm
 
+# adjust these as needed
+ymin = -0.5
+ymax = 4
+yticks = np.linspace(ymin,ymax,5)
+
+ytick_labels = ['%3.1f'%y for y in yticks]
+
+# factor by which to multiply the IA contributions
+F=10.
+
 lims={}
 lims["+"]={}
 lims["-"]={}
@@ -48,6 +58,44 @@ lims["-"][(2,4)] = [78.26637209, 250.0]
 lims["-"][(4,3)] = [78.26637209, 250.0]
 
 
+lims_opt={}
+lims_opt["+"]={}
+lims_opt["-"]={}
+lims_opt["+"][(1,1)] = [2.475, 250.0]
+lims_opt["+"][(2,1)] = [2.475, 250.0]
+lims_opt["+"][(3,1)] = [3.116, 250.0]
+lims_opt["+"][(4,1)] = [2.475, 250.0]
+lims_opt["+"][(2,2)] = [3.923, 250.0]
+lims_opt["+"][(3,2)] = [4.938, 250.0]
+lims_opt["+"][(4,2)] = [4.938, 250.0]
+lims_opt["+"][(3,3)] = [3.923, 250.0]
+lims_opt["+"][(4,3)] = [4.938, 250.0]
+lims_opt["+"][(4,4)] = [3.923, 250.0]
+lims_opt["+"][(1,2)] = [2.475, 250.0]
+lims_opt["+"][(1,3)] = [3.116, 250.0]
+lims_opt["+"][(1,4)] = [2.475, 250.0]
+lims_opt["+"][(2,3)] = [4.938, 250.0]
+lims_opt["+"][(2,4)] = [4.938, 250.0]
+lims_opt["+"][(3,4)] = [4.938, 250.0]
+
+lims_opt["-"][(1,1)] = [24.75, 250.0]
+lims_opt["-"][(2,1)] = [19.660, 250.0]
+lims_opt["-"][(3,1)] = [24.750, 250.0]
+lims_opt["-"][(4,1)] = [19.660, 250.0]
+lims_opt["-"][(2,2)] = [31.158, 250.0]
+lims_opt["-"][(3,2)] = [39.226, 250.0]
+lims_opt["-"][(4,2)] = [39.226, 250.0]
+lims_opt["-"][(3,3)] = [49.383, 250.0]
+lims_opt["-"][(3,4)] = [49.383, 250.0]
+lims_opt["-"][(4,4)] = [39.226, 250.0]
+lims_opt["-"][(1,2)] = [19.660, 250.0]
+lims_opt["-"][(1,3)] = [24.750, 250.0]
+lims_opt["-"][(1,4)] = [19.660, 250.0]
+lims_opt["-"][(2,3)] = [39.226, 250.0]
+lims_opt["-"][(2,4)] = [39.226, 250.0]
+lims_opt["-"][(4,3)] = [49.383, 250.0]
+
+
 positions={
     (1,1,"+"):4,
     (1,1,"-"):12,
@@ -70,11 +118,10 @@ positions={
     (4,4,"+"):19,
     (4,4,"-"):27}
 
-ymin=0.05
 markersize=2.5
 ytickfontsize=10
 
-F=10.
+
 
 rcParams['xtick.major.size'] = 1.5
 rcParams['xtick.minor.size'] = 0.75
@@ -93,8 +140,8 @@ def get_theory_spectra(i,j,filename):
     xip_gi = np.loadtxt("%s/shear_xi_gi_plus/bin_%d_%d.txt"%(filename,i+1,j+1))
     xim_gi = np.loadtxt("%s/shear_xi_gi_minus/bin_%d_%d.txt"%(filename,i+1,j+1))
 
-    xip_ii = np.loadtxt("%s/shear_xi_plus_ii/bin_%d_%d.txt"%(filename,i+1,j+1))
-    xim_ii = np.loadtxt("%s/shear_xi_minus_ii/bin_%d_%d.txt"%(filename,i+1,j+1))
+    xip_ii = np.loadtxt("%s/shear_xi_ii_plus/bin_%d_%d.txt"%(filename,i+1,j+1))
+    xim_ii = np.loadtxt("%s/shear_xi_ii_minus/bin_%d_%d.txt"%(filename,i+1,j+1))
     return theta, xip, xim, xip_gi, xim_gi, xip_ii, xim_ii
 
 def get_real_spectra(i,j,fits,error=True):
@@ -177,23 +224,21 @@ def cornerplot(theory, data, show_cuts=False):
 
             posp = positions[(i+1,j+1,"+")]
             ax = plt.subplot(rows,cols,posp)
-            ax.annotate("(%d, %d)"%(i+1,j+1), (3.,2.7), textcoords='data', fontsize=9, )
+            ax.annotate("(%d, %d)"%(i+1,j+1), (3.,yticks[-2]), textcoords='data', fontsize=9, )
             ax.yaxis.set_tick_params(which='minor', left='off', right='off')
-            plt.ylim(-0.5,3.8)
-            #plt.yscale("log")
+
+            plt.ylim(ymin,ymax)
             plt.xscale("log")
             if (posp==19) or (posp==1) or (posp==7) or (posp==13):
-                plt.yticks(visible=True)
-                #plt.ylabel(r"$\Delta \xi_+(\theta)/\xi_+$", fontsize=12)
-                #plt.xlabel(r"$\theta$ / arcmin", fontsize=12)
-                plt.yticks([0,1,2,3],fontsize=ytickfontsize)
+                #plt.yticks(visible=True)
+
+                plt.yticks(yticks[:-1],ytick_labels[:-1],fontsize=ytickfontsize,visible=True)
             else:
                 plt.yticks(visible=False)
 
             if (posp==19):
                 plt.ylabel(r"$\theta \xi_+ \times 10^{4}$", fontsize=11)
                 plt.xlabel(r"$\theta \;\; [ \mathrm{arcmin} ]$", fontsize=10)
-                plt.yticks([0,1,2,3],fontsize=ytickfontsize)
             else:
                 pass
 
@@ -202,7 +247,6 @@ def cornerplot(theory, data, show_cuts=False):
 
             plt.xlim(2.2,270)
             plt.xticks([10,100],["10", "100"], fontsize=9)
-            #plt.yticks([-2,0,2,4,6,8],['-2', '0', '2', '4', '6', '8'])
             plt.axhline(0, color='k', ls=':')
 
 
@@ -211,16 +255,14 @@ def cornerplot(theory, data, show_cuts=False):
                 plt.axvspan(1e-6, xlower, color='gray',alpha=0.2)
                 plt.axvspan(xupper, 500, color='gray',alpha=0.2)
 
+                xlower_opt,xupper_opt = lims_opt['+'][(i+1,j+1)]
+                plt.axvspan(1e-6,xlower_opt,color='gray',alpha=0.2)
+
 
 
             linestyles=['-',':','--','-']
 
             xta,xip_theory,xim_theory, xip_theory_gi,xim_theory_gi, xip_theory_ii,xim_theory_ii = get_theory_spectra(i,j,theory)
-
-           # import pdb ; pdb.set_trace()
-
-           # xip_a_remapped = (interp_xip_a(np.log10(xip_a[0])))
-           # xip_b_remapped = (interp_xip_b(np.log10(xip_b[0])))
 
             plt.errorbar(xp, xp*xip*1e4, yerr=xp*dxip*1e4, marker='.', linestyle='none', markerfacecolor='k', markeredgecolor='k', ecolor='k',markersize=markersize)
             p1 = plt.plot(xta,xta*xip_theory*1e4,color='darkmagenta',lw=1.5, label='GG+GI+II')
@@ -228,55 +270,48 @@ def cornerplot(theory, data, show_cuts=False):
             p2 = plt.plot(xta,F*xta*xip_theory_gi*1e4,color='pink',lw=1.5, ls='--', label='GI')
             p3 = plt.plot(xta,F*xta*xip_theory_ii*1e4,color='midnightblue',lw=1.5, ls=':', label='II')
 
-            #plt.plot(xip_a[0], (xip_b_remapped-xip_a_remapped)/xip_b_remapped, ls=linestyles[iline], color="darkmagenta")
-              #  plt.plot(xip_b[0], 1e5*(xip_b[1]-xip_b_remapped), ls=linestyles[iline], color="royalblue")
 
             posm = positions[(i+1,j+1,"-")]
             ax = plt.subplot(rows,cols,posm)
-            ax.annotate("(%d, %d)"%(i+1,j+1), (3,2.7), textcoords='data', fontsize=9, )
+            ax.annotate("(%d, %d)"%(i+1,j+1), (3,yticks[-2]), textcoords='data', fontsize=9)
             ax.yaxis.set_tick_params(which='minor', left='off', right='off')
-       #     ax.xaxis.set_tick_params(which='minor', bottom='on', top='off')
-            plt.ylim(-0.5,3.8)
+
+            plt.ylim(ymin,ymax)
             ax.yaxis.set_ticks_position("right")
             ax.yaxis.set_label_position("right")
             
             if (posm==30) or (posm==12) or (posm==18) or (posm==24):
-                plt.yticks(visible=True)
-                #plt.ylabel(r"$\Delta \xi_+(\theta)/\xi_+$", fontsize=12)
-                #plt.xlabel(r"$\theta$ / arcmin", fontsize=12)
+                #plt.yticks(visible=True)
                 ax.yaxis.set_label_position("right")
-                plt.yticks([0,1,2,3],fontsize=ytickfontsize)
+                plt.yticks(yticks,ytick_labels,fontsize=ytickfontsize,visible=True)
 
             else:
                 plt.yticks(visible=False)
 
             if (posm==30):
                 plt.ylabel(r"$\theta \xi_-\times 10^{4}$", fontsize=11)
-                plt.yticks([0,1,2,3],fontsize=ytickfontsize)
+                plt.yticks(yticks[:-1],ytick_labels[:-1],fontsize=ytickfontsize)
 
             else:
                 pass
 
             if posm in [30,29,28,27]:
                 plt.xlabel(r"$\theta \;\; [ \mathrm{arcmin} ]$ ", fontsize=10)
-            #plt.yscale("log")
+
             plt.xscale("log")
             plt.xlim(2.2,270)
-         #   if (posm==27):
-          #      plt.xticks([1,10,100],["1","10", "100"], fontsize=9)
-          #  else:
-            plt.xticks([10,100],["10", "100"], fontsize=9)
-            #ax.xaxis.grid(True, which='minor')
-     
-#            ax.xaxis.set_minor_locator(MultipleLocator(10))
 
-            #plt.yticks([-2,0,2,4,6,8],['-2', '0', '2', '4', '6', '8'])
+            plt.xticks([10,100],["10", "100"], fontsize=9)
+            plt.yticks(yticks[:-1],ytick_labels[:-1],fontsize=ytickfontsize)
             plt.axhline(0, color='k', ls=':')
 
             if show_cuts:
                 xlower,xupper = lims['-'][(i+1, j+1)]
                 plt.axvspan(1e-6, xlower, color='gray',alpha=0.2)
                 plt.axvspan(xupper, 500, color='gray',alpha=0.2)
+
+                xlower_opt,xupper_opt = lims_opt['-'][(i+1,j+1)]
+                plt.axvspan(1e-6,xlower_opt,color='gray',alpha=0.2)
 
             plt.errorbar(xm, xm*xim*1e4, yerr=xm*dxim*1e4, marker='.', linestyle='none', markerfacecolor='k', markeredgecolor='k', ecolor='k',markersize=markersize)
             plt.plot(xta,xta*xim_theory*1e4,color='darkmagenta',lw=1.5)
@@ -285,9 +320,6 @@ def cornerplot(theory, data, show_cuts=False):
             plt.plot(xta,F*xta*xim_theory_ii*1e4,color='midnightblue',lw=1.5, ls=':')
 
 
-                #plt.plot(xim_a[0], 1e5*(xim_a[1]-xim_a_remapped), ls=linestyles[iline], color="red")
-                #plt.plot(xim_b[0], 1e5*(xim_b[1]-xim_b_remapped), ls=linestyles[iline], color="royalblue")
-             #   plt.plot(xip_a[0], (xim_b_remapped-xim_a_remapped)/xim_b_remapped, ls=linestyles[iline], color="darkmagenta")
 
     plt.legend([p1,p2,p3],title='title', bbox_to_anchor=(1.05, 1), loc='upper right', fontsize=12)
 

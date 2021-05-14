@@ -38,7 +38,7 @@ class plot2D(plots.PolychordPlots2D):
     proxies=[]
     def __init__(self, *args, **kwargs):
         super(plot2D, self).__init__(*args, **kwargs)
-        self.colors=['midnightblue','darkmagenta', 'pink', 'forestgreen','purple','royalblue', 'k','pink','steelblue',"purple", 'k', 'k', 'k', 'k']*10
+        self.colors=['#8b008b','darkmagenta', 'pink', 'forestgreen','purple','royalblue', 'k','pink','steelblue',"purple", 'k', 'k', 'k', 'k']*10
         self.linestyles=['-','-','-','-']*10
         pylab.style.use('y1a1')
         #matplotlib.rcParams['text.usetex']=False
@@ -130,9 +130,9 @@ class plot2D(plots.PolychordPlots2D):
 
 
         #Interpolate using KDE
-        #x_axis, y_axis, like = self.smooth_likelihood(x, y, name1, name2 )
-        #n = len(x_axis)
-        n, x_axis, y_axis, like = self.smooth_likelihood(x, y)
+        x_axis, y_axis, like = self.smooth_likelihood(x, y, name1, name2 )
+        n = len(x_axis)
+        #n, x_axis, y_axis, like = self.smooth_likelihood(x, y)
       #  try:
       #      n, x_axis, y_axis, like = self.smooth_likelihood(x, y)
        # except:

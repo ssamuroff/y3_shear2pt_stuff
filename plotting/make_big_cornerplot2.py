@@ -109,7 +109,7 @@ samples = MCSamples(samples=samp1.T,names=['x%d'%(i+1) for i in range(nparam)], 
 samples2 = MCSamples(samples=samp2.T,names=['x%d'%(i+1) for i in range(len(samp2))], labels=names_list2, label='Prior', weights=np.ones_like(samp2[0]),  settings={'boundary_correction_order':0, 'mult_bias_correction_order':1})
 
 #import pdb ; pdb.set_trace()
-g.triangle_plot([samples2,samples],['x%d'%(i+1) for i in range(nparam)], upper_kwargs={'show_1d':False},  filled=[True,True], contour_args={'alpha':0.6}, contour_colors=['#FFC0CB','#FA86C9','#7223AD' ], labels=['Posterior', 'Prior']) #, param_limits={'x1':(0.18,0.45), 'x2':(0.69,0.9), 'x3':(0.6,1.05)}) #, markers=[[0.15,0.3,0.45], [0.6,0.7,0.8,0.9], [-2,-1,0,1,2,3]])
+g.triangle_plot([samples2,samples],['x%d'%(i+1) for i in range(nparam)], upper_kwargs={'show_1d':False},  filled=[False,True], contour_args=[{'alpha':1,'ls':'--'},{'alpha':0.6}], contour_colors=['#191970','#7223AD','#FFC0CB','#FA86C9','#7223AD' ], labels=['Posterior', 'Prior']) #, param_limits={'x1':(0.18,0.45), 'x2':(0.69,0.9), 'x3':(0.6,1.05)}) #, markers=[[0.15,0.3,0.45], [0.6,0.7,0.8,0.9], [-2,-1,0,1,2,3]])
 #import pdb ; pdb.set_trace()
 
 #s8_ticks = [0.7,0.75,0.8,0.85]

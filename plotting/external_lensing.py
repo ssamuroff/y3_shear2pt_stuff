@@ -102,14 +102,14 @@ samples = MCSamples(samples=samp0.T,names=['x1','x2','x3'], labels=names, label=
 samples2 =MCSamples(samples=samp1.T,names=['x1','x2','x3'], labels=names, label='HSC Y1', weights=c1['weight'], settings={'boundary_correction_order':0, 'mult_bias_correction_order':1})
 samples3 = MCSamples(samples=samp2.T,names=['x1','x2','x3'], labels=names, label='DES Y3 optimised', weights=c2.weight, settings={'boundary_correction_order':0, 'mult_bias_correction_order':1})
 samples4 =MCSamples(samples=samp3.T,names=['x1','x2','x3'], labels=names, label='KiDS-1000', weights=c3.weight, settings={'boundary_correction_order':0, 'mult_bias_correction_order':1})
-samples5 = MCSamples(samples=samp4.T,names=['x1','x2'], labels=names[:-1], label='Planck 18 TT+TE+EE', weights=c4.weight, settings={'boundary_correction_order':0, 'mult_bias_correction_order':1})
+samples5 = MCSamples(samples=samp4.T,names=['x1','x2'], labels=names[:-1], label='Planck 18 TT+TE+EE+lowE', weights=c4.weight, settings={'boundary_correction_order':0, 'mult_bias_correction_order':1})
 
 
 #7223AD
 #A4CD64
 #3775A1
 #DD9EE8
-g.triangle_plot([samples, samples3, samples2, samples4, samples5],['x1','x2','x3'], diag1d_kwargs={'normalized':True}, contour_args=[{'alpha':0.6},{'alpha':1},{'alpha':1.},{'alpha':1.},{'alpha':0.6}], filled=[True,False,False,False,True], contour_colors=['#7223AD','#FF69B4','#3775A1','#191970','#A4CD64' ], labels=['DES Y3', 'HSC Y1', 'DES Y1', 'KiDS-1000', 'Planck 18'], param_limits={'x1':(0.05,0.48), 'x2':(0.65,0.9), 'x3':(-2,3.5)}) #, markers=[[0.15,0.3,0.45], [0.6,0.7,0.8,0.9], [-2,-1,0,1,2,3]])
+g.triangle_plot([samples, samples3, samples2, samples4, samples5],['x1','x2','x3'], diag1d_kwargs={'normalized':True}, contour_args=[{'alpha':0.6},{'alpha':1,'ls':'--'},{'alpha':1.},{'alpha':1.},{'alpha':0.6}], filled=[True,False,False,False,True], contour_colors=['#7223AD','#000000','#3775A1','#FF69B4','#A4CD64' ], labels=['DES Y3', 'HSC Y1', 'DES Y1', 'KiDS-1000', 'Planck 18'], param_limits={'x1':(0.05,0.48), 'x2':(0.65,0.9), 'x3':(-2,3.5)}) #, markers=[[0.15,0.3,0.45], [0.6,0.7,0.8,0.9], [-2,-1,0,1,2,3]])
 #import pdb ; pdb.set_trace()
 
 s8_ticks = [0.65,0.75,0.85]

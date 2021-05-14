@@ -8,9 +8,9 @@ plt.style.use('y1a1')
 
 from matplotlib import rcParams
 rcParams['xtick.major.size'] = 3.5
-rcParams['xtick.minor.size'] = 1.7
+rcParams['xtick.minor.size'] = 1.8
 rcParams['ytick.major.size'] = 3.5
-rcParams['ytick.minor.size'] = 1.7
+rcParams['ytick.minor.size'] = 1.8
 rcParams['xtick.direction']='in'
 rcParams['ytick.direction']='in'
 
@@ -30,18 +30,20 @@ Anla_lower = np.array([-0.175702,-0.207582,-0.274731,-0.372243])
 Anla_upper = np.array([0.0680387,0.0954747,0.130383,0.138064])
    
 
-Anlapb_mid = np.array([ 0.144392,0.419248,0.927698,0.644873])
-Anlapb_lower = np.array([0.00693158,0.357998,0.456882,-0.204823])
-Anlapb_upper = np.array([0.166369,0.543666,1.00964,1.11375])
+Anlapb_mid = np.array([-4.59804e-02,2.69611e-02,5.29374e-01,1.76122])
+Anlapb_lower = Anlapb_mid - np.array([1.58199e-01,1.71558e-01,3.74310e-01,1.73082e+00])
+Anlapb_upper = np.array([1.66593e-01,1.86135e-01,3.65583e-01,1.67571e+00]) + Anlapb_mid
+
 
 colours = ['#7223AD','#A4CD64','#DD9EE8','#3775A1']
 
 plt.subplot(111,aspect=0.11594202898550725)
-plt.errorbar(x,A1_mid, yerr=[A1_mid-A1_lower,A1_upper-A1_mid] ,label='TATT ($A_1$)', linestyle='none', marker='*', markeredgecolor=colours[0], markerfacecolor=colours[0], ecolor=colours[0])
-plt.errorbar(x+0.01,A2_mid, yerr=[A2_mid-A2_lower,A2_upper-A2_mid] ,label='TATT ($A_2$)', linestyle='none', marker='v', markeredgecolor=colours[1], markerfacecolor=colours[1], ecolor=colours[1])
+plt.minorticks_on()
+plt.errorbar(x,A1_mid, yerr=[A1_mid-A1_lower,A1_upper-A1_mid] ,label='TATT ($a_1$)', linestyle='none', marker='*', markeredgecolor=colours[0], markerfacecolor=colours[0], ecolor=colours[0])
+plt.errorbar(x+0.01,A2_mid, yerr=[A2_mid-A2_lower,A2_upper-A2_mid] ,label='TATT ($a_2$)', linestyle='none', marker='v', markeredgecolor=colours[1], markerfacecolor=colours[1], ecolor=colours[1])
 plt.errorbar(x-0.01,Anla_mid, yerr=[Anla_mid-Anla_lower,Anla_upper-Anla_mid] ,label='NLA', linestyle='none', marker='x', markeredgecolor=colours[2], markerfacecolor=colours[2], ecolor=colours[2])
 #plt.errorbar(x-0.025,Anlapb_mid, yerr=[Anlapb_lower,Anlapb_upper] ,label='NLA (per bin)', linestyle='none', marker='D',markersize=3.5, markeredgecolor='forestgreen', markerfacecolor='forestgreen', ecolor='forestgreen')
-plt.errorbar(x-0.025,[8.919087e-02,4.570875e-01,7.478942e-01,5.344187e-01], yerr=[1.699039e-01,1.969002e-01,5.777228e-01,1.419922e+00] ,label='NLA per bin', linestyle='none', marker='D',markersize=3.5, markeredgecolor=colours[3], markerfacecolor=colours[3], ecolor=colours[3])
+plt.errorbar(x-0.025,Anlapb_mid, yerr=[Anlapb_mid-Anlapb_lower,Anlapb_upper-Anlapb_mid] ,label='NLA, free $a_1$ per $z-$bin', linestyle='none', marker='D',markersize=3.5, markeredgecolor=colours[3], markerfacecolor=colours[3], ecolor=colours[3])
    
 
 plt.ylim(-1.9,5.)
@@ -51,7 +53,7 @@ plt.xticks([0.4,0.6,0.8,1.],fontsize=fontsize)
 plt.yticks([-1,0,1,2,3,4,5],fontsize=fontsize)
 plt.xlabel('Redshift $z$',fontsize=fontsize)
 plt.ylabel('Effective $a_i$',fontsize=fontsize)
-plt.legend(loc='upper left',fontsize=16)
+plt.legend(loc='upper left',fontsize=14)
 plt.subplots_adjust(bottom=0.155,left=0.155, top=0.98,right=0.98,hspace=0, wspace=0)
 print('Saving...')
 plt.savefig('/Users/hattifattener/Documents/y3cosmicshear/plots/cs2/iaeff_z_maglim.png')

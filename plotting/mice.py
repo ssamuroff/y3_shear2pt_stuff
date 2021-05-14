@@ -46,9 +46,9 @@ cc = ChainConsumer()
 
 #import pdb ; pdb.set_trace()
 
-names0 = [r'$\Omega_{\rm m}$','$S_8$','$A_1$']
-names = ['$A_1$', '$A_2$', r'$b_{\rm TA}$']
-names2 = [r'$\Omega_{\rm m}$','$S_8$','$A_1$', '$A_2$', r'$b_{\rm TA}$']
+names0 = [r'$\Omega_{\rm m}$','$S_8$','$a_1$']
+names = ['$a_1$', '$a_2$', r'$b_{\rm TA}$']
+names2 = [r'$\Omega_{\rm m}$','$S_8$','$a_1$', '$a_2$', r'$b_{\rm TA}$']
 
 
 cc.add_chain(samp1.T, parameters=names2, weights=c1.weight, kde=True, name=r'MICE Baseline')
@@ -108,7 +108,7 @@ samples2 =MCSamples(samples=samp2.T,names=['x1','x2','x3','x4','x5'], labels=nam
 samples3 = MCSamples(samples=samp3.T,names=['x1','x2','x3'], labels=names0, label='with IAs (NLA)', weights=c3.weight, settings={'boundary_correction_order':0, 'mult_bias_correction_order':1})
 samples4 = MCSamples(samples=samp4.T,names=['x3','x4','x5'], labels=names, label='with IAs (TATT, fixed cosmology)', weights=c4.weight, settings={'boundary_correction_order':0, 'mult_bias_correction_order':1})
 
-g.triangle_plot([samples, samples2, samples3,samples4],['x1','x2','x3','x4','x5'], diag1d_kwargs={'normalized':True}, filled=[True,False,False,True,True], contour_args={'alpha':0.6},contour_colors=['#191970','#4E1B68','#228B22','#BD8AD8','#7223AD' ], labels=['Baseline (TATT)', 'with IAs (TATT)', 'with IAs (NLA)'], param_limits={'x1':(0.15,0.48), 'x2':(0.6,0.79), 'x3':(-2.5,1.1),'x5':(0,2.2)}, markers={'x1':0.25,'x2':0.7302967433402215}, marker_args={'color':'hotpink', 'lw':1.})
+g.triangle_plot([samples, samples2, samples3,samples4],['x1','x2','x3','x4','x5'], diag1d_kwargs={'normalized':True}, contour_args=[{'alpha':0.6},{'alpha':1},{'alpha':1,'ls':'-'},{'alpha':0.6},{'alpha':1}], filled=[True,False,False,True,True],contour_colors=['#7223AD','#3775A1','#A4CD64','#FF69B4','#A4CD64'], labels=['Baseline (TATT)', 'with IAs (TATT)', 'with IAs (NLA)'], param_limits={'x1':(0.15,0.48), 'x2':(0.6,0.79), 'x3':(-2.5,1.1),'x5':(0,2.2)}, markers={'x1':0.25,'x2':0.7302967433402215}, marker_args={'color':'hotpink', 'lw':1.})
 #import pdb ; pdb.set_trace()
 #
 s8_ticks = [0.65,0.7,0.75]

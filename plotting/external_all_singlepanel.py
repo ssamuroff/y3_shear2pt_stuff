@@ -72,7 +72,7 @@ samples5 = MCSamples(samples=samp5.T,names=['x1','x2'], labels=names, label='DES
 samples3 = MCSamples(samples=samp3.T,names=['x1','x2'], labels=names, label='DES Y3 + BAO + SN', weights=c3.weight, settings={'boundary_correction_order':0, 'mult_bias_correction_order':1})
 samples2 = MCSamples(samples=samp2.T,names=['x1','x2'], labels=names, label='Planck 18 TT+TE+EE', weights=c2.weight, settings={'boundary_correction_order':0, 'mult_bias_correction_order':1})
 
-g.triangle_plot([samples4,samples, samples5, samples2],['x1','x2'], filled=[True,True,False,True,True], contour_args=[{'alpha':0.6},{'alpha':0.6},{'alpha':1,'ls':'--'},{'alpha':0.6},{'alpha':0.6}], diag1d_kwargs={'normalized':True}, contour_colors=['#3775A1','#7223AD','#000000','#A4CD64'], labels=['DES Y3', 'Planck 2018'], param_limits={'x1':(0.18,0.51), 'x2':(0.6,1.0)}) #, markers=[[0.15,0.3,0.45], [0.6,0.7,0.8,0.9], [-2,-1,0,1,2,3]])
+g.triangle_plot([samples4,samples, samples5, samples3, samples2],['x1','x2'], filled=[True,True,False,True,True,True], contour_args=[{'alpha':0.6},{'alpha':0.6},{'alpha':1,'ls':'--'},{'alpha':0.6},{'alpha':0.6}], diag1d_kwargs={'normalized':True}, contour_colors=['#3775A1','#7223AD','#000000','#FF69B4','#A4CD64'], labels=['DES Y3', 'Planck 2018'], param_limits={'x1':(0.18,0.51), 'x2':(0.6,1.0)}) #, markers=[[0.15,0.3,0.45], [0.6,0.7,0.8,0.9], [-2,-1,0,1,2,3]])
 #import pdb ; pdb.set_trace()
 
 s8_ticks = [0.7,0.8,0.9,1.]
@@ -91,5 +91,5 @@ g.subplots[1][1].set_xticks(s8_ticks)
 #g.subplots[2][2].set_xticks(sig8_ticks)
 
 #g.add_legend(['DES Y3','HSC Y1'])
-plt.savefig('/Users/hattifattener/Documents/y3cosmicshear/plots/cs2/TATT_NLA_vs_ext_2_maglim_v2_noDES_SN_BAO.pdf')
-plt.savefig('/Users/hattifattener/Documents/y3cosmicshear/plots/cs2/TATT_NLA_vs_ext_2_maglim_v2_noDES_SN_BAO.png')
+plt.savefig('/Users/hattifattener/Documents/y3cosmicshear/plots/cs2/TATT_NLA_vs_ext_2_maglim_v2.pdf')
+plt.savefig('/Users/hattifattener/Documents/y3cosmicshear/plots/cs2/TATT_NLA_vs_ext_2_maglim_v2.png')

@@ -36,7 +36,8 @@ def derive_hubble(chain):
 
 
 def derive_s8_fixed_alpha(chain):
-    alpha=0.50
+    alpha=0.586
+    #0.50
     omega_m=chain['cosmological_parameters--omega_m']
     try:
         sigma_8=chain['COSMOLOGICAL_PARAMETERS--SIGMA_8']

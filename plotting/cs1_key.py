@@ -83,7 +83,7 @@ import matplotlib.pyplot as plt
 
 
 g = plots.get_subplot_plotter() #(width_inch=6, ratio=1)
-g.settings.legend_fontsize = 22
+g.settings.legend_fontsize = 19
 g.settings.fontsize = 18
 g.settings.axes_fontsize = 18
 g.settings.axes_labelsize = 22
@@ -95,11 +95,11 @@ g.settings.axis_tick_step_groups = [[2.5, 3, 4, 6, 8],[1, 2, 5, 10]]
 
 samples = MCSamples(samples=samp1.T,names=['x1','x2','x3'], labels=names, label='DES Y3', weights=c1.weight, settings={'boundary_correction_order':0, 'mult_bias_correction_order':1})
 samples2 = MCSamples(samples=samp3.T,names=['x1','x2','x3'], labels=names, label='DES Y3 optimised', weights=c3.weight, settings={'boundary_correction_order':0, 'mult_bias_correction_order':1})
-samples5 = MCSamples(samples=samp2.T,names=['x1','x2','x3'], labels=names, label='Planck 2018 TT+TE+EE', weights=c2.weight, settings={'boundary_correction_order':0, 'mult_bias_correction_order':1})
+samples5 = MCSamples(samples=samp2.T,names=['x1','x2','x3'], labels=names, label='Planck 2018 TT+TE+EE+lowE', weights=c2.weight, settings={'boundary_correction_order':0, 'mult_bias_correction_order':1})
 
 
 #DD9EE8
-g.triangle_plot([samples, samples2, samples5],['x1','x2','x3'], filled=[True,False,True,False,False,True], contour_args=[{'alpha':0.6},{'alpha':1.},{'alpha':0.6},{'alpha':1.}], diag1d_kwargs={'normalized':True}, contour_colors=['#7223AD','#FF69B4','#A4CD64'], labels=['DES Y3', 'Planck 2018'], param_limits={'x1':(0.18,0.51), 'x2':(0.69,0.9), 'x3':(0.6,1.05)}) #, markers=[[0.15,0.3,0.45], [0.6,0.7,0.8,0.9], [-2,-1,0,1,2,3]])
+g.triangle_plot([samples, samples2, samples5],['x1','x2','x3'], filled=[True,False,True,False,False,True], contour_args=[{'alpha':0.6},{'alpha':1.,'ls':'--'},{'alpha':0.6},{'alpha':1.}], diag1d_kwargs={'normalized':True}, contour_colors=['#7223AD','#000000','#A4CD64'], labels=['DES Y3', 'Planck 2018'], param_limits={'x1':(0.18,0.51), 'x2':(0.69,0.9), 'x3':(0.6,1.05)}) #, markers=[[0.15,0.3,0.45], [0.6,0.7,0.8,0.9], [-2,-1,0,1,2,3]])
 #import pdb ; pdb.set_trace()
 
 s8_ticks = [0.7,0.75,0.8,0.85]
@@ -118,5 +118,5 @@ g.subplots[2][1].set_xticks(s8_ticks)
 g.subplots[2][2].set_xticks(sig8_ticks)
 
 #g.add_legend(['DES Y3','HSC Y1'])
-plt.savefig('/Users/hattifattener/Documents/y3cosmicshear/plots/cs2/unblinded_y3cs_keyplot_getdist_v4_maglim_newcolourscheme3.pdf')
-plt.savefig('/Users/hattifattener/Documents/y3cosmicshear/plots/cs2/unblinded_y3cs_keyplot_getdist_v4_maglim_newcolourscheme3.png')
+plt.savefig('/Users/hattifattener/Documents/y3cosmicshear/plots/cs2/unblinded_y3cs_keyplot_getdist_v4_maglim_noflamingo.pdf')
+plt.savefig('/Users/hattifattener/Documents/y3cosmicshear/plots/cs2/unblinded_y3cs_keyplot_getdist_v4_maglim_noflamingo.png')

@@ -79,7 +79,7 @@ g.settings.norm_1d_density=True
 samples = MCSamples(samples=samp1.T,names=['x1','x2','x3'], labels=names, label='TATT', weights=c1.weight, settings={'boundary_correction_order':0, 'mult_bias_correction_order':1})
 samples5 = MCSamples(samples=samp2.T,names=['x1','x2','x3'], labels=names, label='NLA', weights=c2.weight, settings={'boundary_correction_order':0, 'mult_bias_correction_order':1})
 
-g.triangle_plot([samples, samples5],['x1','x2','x3'], filled=[False,True,False,False,True], diag1d_kwargs={'normalized':True},contour_args={'alpha':0.4},contour_colors=['#FA86C9','#7223AD' ], labels=['TATT', 'NLA']) #, param_limits={'x1':(0.18,0.45), 'x2':(0.69,0.9), 'x3':(0.6,1.05)}) #, markers=[[0.15,0.3,0.45], [0.6,0.7,0.8,0.9], [-2,-1,0,1,2,3]])
+g.triangle_plot([samples, samples5],['x1','x2','x3'], filled=[False,True,False,False,True], diag1d_kwargs={'normalized':True},contour_args=[{'alpha':1},{'alpha':0.6}],contour_colors=['#FF69B4','#7223AD' ], labels=['TATT', 'NLA']) #, param_limits={'x1':(0.18,0.45), 'x2':(0.69,0.9), 'x3':(0.6,1.05)}) #, markers=[[0.15,0.3,0.45], [0.6,0.7,0.8,0.9], [-2,-1,0,1,2,3]])
 #import pdb ; pdb.set_trace()
 
 s8_ticks = [-0.06,0,0.06]
@@ -97,7 +97,7 @@ g.subplots[2][1].set_yticks(sig8_ticks)
 g.subplots[2][1].set_xticks(s8_ticks)
 g.subplots[2][2].set_xticks(sig8_ticks)
 
-plt.suptitle(r'ML SR', fontsize=16)
+#plt.suptitle(r'ML SR', fontsize=16)
 plt.subplots_adjust(top=0.94)
 #g.add_legend(['DES Y3','HSC Y1'])
 plt.savefig('/Users/hattifattener/Documents/y3cosmicshear/plots/cs2/blinded_y3cs_degeneracies_maglim.pdf')
