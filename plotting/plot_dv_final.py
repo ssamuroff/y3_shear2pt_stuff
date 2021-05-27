@@ -265,10 +265,10 @@ def cornerplot(theory, data, show_cuts=False):
             xta,xip_theory,xim_theory, xip_theory_gi,xim_theory_gi, xip_theory_ii,xim_theory_ii = get_theory_spectra(i,j,theory)
 
             plt.errorbar(xp, xp*xip*1e4, yerr=xp*dxip*1e4, marker='.', linestyle='none', markerfacecolor='k', markeredgecolor='k', ecolor='k',markersize=markersize)
-            p1 = plt.plot(xta,xta*xip_theory*1e4,color='darkmagenta',lw=1.5, label='GG+GI+II')
-            plt.plot(xta,F*xta*(xip_theory_gi+xip_theory_ii)*1e4,color='steelblue',lw=1., ls='-', label='GI')
-            p2 = plt.plot(xta,F*xta*xip_theory_gi*1e4,color='pink',lw=1.5, ls='--', label='GI')
-            p3 = plt.plot(xta,F*xta*xip_theory_ii*1e4,color='midnightblue',lw=1.5, ls=':', label='II')
+            p1 = plt.plot(xta,xta*xip_theory*1e4,color='#016E51',lw=1.5, label='GG+GI+II')
+            plt.plot(xta,F*xta*(xip_theory_gi+xip_theory_ii)*1e4,color='#12239E',lw=1., ls='-', label='GI')
+            p2 = plt.plot(xta,F*xta*xip_theory_gi*1e4,color='#FFA500',lw=1.5, ls='--', label='GI')
+            p3 = plt.plot(xta,F*xta*xip_theory_ii*1e4,color='#E13102',lw=1.5, ls='-.', label='II')
 
 
             posm = positions[(i+1,j+1,"-")]
@@ -315,10 +315,10 @@ def cornerplot(theory, data, show_cuts=False):
                 plt.axvspan(1e-6,xlower_opt,color='gray',alpha=0.2)
 
             plt.errorbar(xm, xm*xim*1e4, yerr=xm*dxim*1e4, marker='.', linestyle='none', markerfacecolor='k', markeredgecolor='k', ecolor='k',markersize=markersize)
-            plt.plot(xta,xta*xim_theory*1e4,color='darkmagenta',lw=1.5)
-            plt.plot(xta,F*xta*(xim_theory_gi+xim_theory_ii)*1e4,color='steelblue',lw=1., ls='-', label='GI')
-            plt.plot(xta,F*xta*xim_theory_gi*1e4,color='pink',lw=1.5, ls='--')
-            plt.plot(xta,F*xta*xim_theory_ii*1e4,color='midnightblue',lw=1.5, ls=':')
+            plt.plot(xta,xta*xim_theory*1e4,color='#016E51',lw=1.5)
+            plt.plot(xta,F*xta*(xim_theory_gi+xim_theory_ii)*1e4,color='#12239E',lw=1., ls='-', label='GI')
+            plt.plot(xta,F*xta*xim_theory_gi*1e4,color='#FFA500',lw=1.5, ls='--')
+            plt.plot(xta,F*xta*xim_theory_ii*1e4,color='#E13102',lw=1.5, ls='-.')
 
 
 
@@ -329,12 +329,12 @@ def cornerplot(theory, data, show_cuts=False):
     ax.set_position([box.x0, box.y0, box.width*0.65, box.height])
     legend_x = 4.2
     legend_y = 5.2
-    proxies = [plt.Line2D([0,2.5], [0,0], linestyle=ls, linewidth=1.5, color=lc) for ls,lc in [('-','darkmagenta'),('-','steelblue'),('--','pink'),(':','midnightblue')]]
+    proxies = [plt.Line2D([0,2.5], [0,0], linestyle=ls, linewidth=1.5, color=lc) for ls,lc in [('-','#016E51'),('-','#12239E'),('--','#FFA500'),('-.','#E13102')]]
     plt.legend(proxies,["GG+GI+II", r"$10 \times$ GI+II", r"$10 \times$ GI", r'$10 \times$ II'], loc='upper right', bbox_to_anchor=(legend_x, legend_y), fontsize=9)
 
     plt.subplots_adjust(hspace=0,wspace=0, bottom=0.14,left=0.14, right=0.88)
-    plt.savefig("plots/unblinded_datavector_xipm_maglimbf.pdf")
-    plt.savefig("plots/unblinded_datavector_xipm_maglimbf.png")
+    plt.savefig("plots/unblinded_datavector_xipm_maglimbf_final.pdf")
+    plt.savefig("plots/unblinded_datavector_xipm_maglimbf_final.png")
 
 
 

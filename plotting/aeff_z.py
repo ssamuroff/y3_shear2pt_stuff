@@ -35,7 +35,7 @@ Anlapb_lower = Anlapb_mid - np.array([1.58199e-01,1.71558e-01,3.74310e-01,1.7308
 Anlapb_upper = np.array([1.66593e-01,1.86135e-01,3.65583e-01,1.67571e+00]) + Anlapb_mid
 
 
-colours = ['#7223AD','#A4CD64','#DD9EE8','#3775A1']
+colours = ['#016E51','#12239E','#E13102','#FFA500']
 
 plt.subplot(111,aspect=0.11594202898550725)
 plt.minorticks_on()
@@ -56,5 +56,5 @@ plt.ylabel('Effective $a_i$',fontsize=fontsize)
 plt.legend(loc='upper left',fontsize=14)
 plt.subplots_adjust(bottom=0.155,left=0.155, top=0.98,right=0.98,hspace=0, wspace=0)
 print('Saving...')
-plt.savefig('/Users/hattifattener/Documents/y3cosmicshear/plots/cs2/iaeff_z_maglim.png')
-plt.savefig('/Users/hattifattener/Documents/y3cosmicshear/plots/cs2/iaeff_z_maglim.pdf')
+plt.savefig('/Users/hattifattener/Documents/y3cosmicshear/plots/cs2/iaeff_z_maglim_final.png')
+plt.savefig('/Users/hattifattener/Documents/y3cosmicshear/plots/cs2/iaeff_z_maglim_final.pdf')

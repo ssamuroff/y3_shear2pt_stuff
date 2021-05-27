@@ -96,8 +96,8 @@ import matplotlib.pyplot as plt
 g = plots.get_subplot_plotter() #(width_inch=6, ratio=1)
 g.settings.legend_fontsize = 40
 g.settings.fontsize = 18
-g.settings.axes_fontsize = 18
-g.settings.axes_labelsize = 22
+g.settings.axes_fontsize = 26
+g.settings.axes_labelsize = 30
 g.settings.axis_tick_max_labels = 15
 g.settings.linewidth = 1.5
 g.settings.legend_colored_text=True

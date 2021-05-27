@@ -59,8 +59,8 @@ plt.ylabel('Galaxy bias $b_g$',fontsize=fontsize)
 plt.xticks([0.2,0.4,0.6,0.8,1.],visible=False)
 
 
-plt.errorbar(x_lens_ml,b_ml_mid, yerr=[b_ml_mid-b_ml_lower,b_ml_upper-b_ml_mid] ,label=r'Maglim ($b_1$)', linestyle='none', marker='o', markeredgecolor=colours[0], markerfacecolor=colours[0], ecolor=colours[0], markersize=3.5)
-plt.errorbar(x_lens_rm,b_rm_mid, yerr=[b_rm_mid-b_rm_lower,b_rm_upper-b_rm_mid] ,label=r'redMaGiC ($b_1$)', linestyle='none', marker='o', markerfacecolor=colours[2], markeredgecolor=colours[2], ecolor=colours[2], markersize=3.5)
+plt.errorbar(x_lens_ml,b_ml_mid, yerr=[b_ml_mid-b_ml_lower,b_ml_upper-b_ml_mid] ,label=r'Maglim ($b_g$)', linestyle='none', marker='o', markeredgecolor=colours[0], markerfacecolor=colours[0], ecolor=colours[0], markersize=3.5)
+plt.errorbar(x_lens_rm,b_rm_mid, yerr=[b_rm_mid-b_rm_lower,b_rm_upper-b_rm_mid] ,label=r'redMaGiC ($b_g$)', linestyle='none', marker='o', markerfacecolor=colours[2], markeredgecolor=colours[2], ecolor=colours[2], markersize=3.5)
 plt.legend(loc='upper left',fontsize=8)
 
 

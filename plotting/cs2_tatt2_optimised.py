@@ -20,7 +20,7 @@ print('Loading chains...')
 base = '/Volumes/groke/work/chains/y3/real/'
 #c1 = mc.chain(base+'fiducial/chain_1x2pt_hyperrank_2pt_NG_BLINDED_v0.40cov_xcorrGGL_27072020_SOMPZWZsamples_pit.fits_scales_3x2pt_0.5_8_6_v0.4.ini_lcdm.txt')
 c1 = mc.chain(base+'/final_paper_chains/chain_1x2pt_lcdm_noSR_maglim_optimized.txt')
-c2 = mc.chain(base+'/final_paper_chains/tests_1x2pt/maglim/chain_NLA_1x2pt_lcdm_maglim.txt')
+c2 = mc.chain(base+'/final_paper_chains/chain_1x2pt_nla_lcdm_noSR_maglim_optimized.txt')
 
 
 c1.add_s8()
